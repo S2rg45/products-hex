@@ -25,6 +25,20 @@ handler = ProductHandler(product_repository=repo)
 # endpoints to get information products
 ############################################################################################################
 
+# endpoint health check
+@router.get('/health/')
+async def health_check():
+    """
+    This function is used to check the health of the API
+    :return: health status
+    """
+    try:
+        log.logger.info("Health check successful")
+        return JSONResponse(content={"status": "success", "message": "API is running"}, status_code=200)
+    except Exception as e:
+        log.logger.error(f"Health check failed: {str(e)}")
+        return ErrorHandler.handle_error(e, "Error in health check")
+
 
 # endpoint to register a new product
 @router.post('/create-product/')
@@ -48,7 +62,7 @@ async def create_product(product: Product):
 
 
 # endpoint to get one product by id
-@router.get('/product/')
+@router.post('/product/')
 async def get_product(product_id: Product):
     """
     This function is used to get a product by id
@@ -119,7 +133,7 @@ async def delete_product(product_id: Product):
     
 
 # entopoint to get all products
-@router.get('/products/')
+@router.post('/products/')
 async def get_all_products(products: Products):
     """
     This function is used to get all products

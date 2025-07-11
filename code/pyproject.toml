@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "api that allows you to manage products"
 authors = ["smc"]
 license = "MIT"
-readme = "README.md"
+packages = []
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -16,11 +16,41 @@ fastapi = "^0.116.0"
 python-dotenv = "^1.1.1"
 pydantic = "^2.11.7"
 uvicorn = "^0.35.0"
-jose = "^1.0.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 bcrypt = "4.0.1"
 structlog = "^25.4.0"
 fastapi-pagination = "^0.13.3"
+httpx = "^0.28.1"
 
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/migrations/*",
+    "*/venv/*",
+    "*/env/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+precision = 2
 
 [build-system]
 requires = ["poetry-core"]
